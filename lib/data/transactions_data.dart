@@ -17,7 +17,7 @@ class TransactionsData {
     Transaction(
       id: 't3',
       title: 'Calça',
-      value: 200.13,
+      value: 200.10,
       date: DateTime.now(),
     ),
   ];
