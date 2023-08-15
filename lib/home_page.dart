@@ -17,19 +17,17 @@ class _MyHomePageState extends State<HomePage> {
         title: const Text('Despesas pessoais'),
       ),
       body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                child: Card(
-                  color: Theme.of(context).colorScheme.inversePrimary,
-                  elevation: 5,
-                  child: const Center(child: Text('Gráfico')),
-                ),
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              child: Card(
+                color: Theme.of(context).colorScheme.inversePrimary,
+                elevation: 5,
+                child: const Center(child: Text('Gráfico')),
               ),
-              const TransactionUser(),
-            ],
-          ),
+            ),
+            const TransactionUser(),
+          ],
         ),
       ),
     );
