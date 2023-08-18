@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:personal_expenses/components/chart.dart';
 import 'package:personal_expenses/components/transaction_form.dart';
 import 'package:personal_expenses/components/transactions_list.dart';
 import 'package:personal_expenses/data/transactions_data.dart';
@@ -14,6 +15,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<HomePage> {
+  List<Transaction> get _recentTransaction {
+    final List<Transaction> transactions = TransactionsData.transactions;
+    return transactions.where((tr) {
+      return tr.date.isAfter(DateTime.now().subtract(
+        const Duration(days: 7),
+      ));
+    }).toList();
+  }
+
   _addTransaction(String title, double value) {
     final List<Transaction> transactions = TransactionsData.transactions;
     final newTransaction = Transaction(
@@ -25,6 +35,7 @@ class _MyHomePageState extends State<HomePage> {
     setState(() {
       transactions.add(newTransaction);
     });
+    Navigator.of(context).pop();
   }
 
   _openTransactionFormModal(BuildContext context) {
@@ -54,13 +65,7 @@ class _MyHomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            SizedBox(
-              child: Card(
-                color: Theme.of(context).colorScheme.inversePrimary,
-                elevation: 5,
-                child: const Center(child: Text('Gráfico')),
-              ),
-            ),
+            Chart(recentTransaction: _recentTransaction),
             TransactionsList(transactions: TransactionsData.transactions),
           ],
         ),
