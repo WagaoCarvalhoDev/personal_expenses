@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:personal_expenses/components/chart_bar.dart';
 import 'package:personal_expenses/models/transaction.dart';
 
 class Chart extends StatelessWidget {
@@ -33,16 +34,34 @@ class Chart extends StatelessWidget {
     });
   }
 
+  double get _weekTotalValue {
+    return groupedTransactions.fold(0.0, (sum, tr) {
+      return sum + tr['value'];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     groupedTransactions;
     return Card(
       elevation: 6,
-      margin: EdgeInsets.all(20),
-      child: Row(
-        children: groupedTransactions.map((tr) {
-          return Text('${tr['day']}: ${tr['value']}');
-        }).toList(),
+      margin: const EdgeInsets.all(20),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: groupedTransactions.map((tr) {
+            return Flexible(
+              fit: FlexFit.loose,
+              child: ChartBar(
+                label: tr['day'],
+                value: tr['value'],
+                percentage: tr['value'] / _weekTotalValue,
+              ),
+            );
+            return Text('${tr['day']}: ${tr['value']}');
+          }).toList(),
+        ),
       ),
     );
   }
