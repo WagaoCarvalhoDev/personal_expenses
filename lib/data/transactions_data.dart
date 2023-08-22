@@ -20,5 +20,17 @@ class TransactionsData {
       value: 110.57,
       date: DateTime.now().subtract(const Duration(days: 4)),
     ),
+    Transaction(
+      id: 't3',
+      title: 'Cartão de crédito',
+      value: 110211.57,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't4',
+      title: 'Cinto',
+      value: 11.57,
+      date: DateTime.now(),
+    ),
   ];
 }
