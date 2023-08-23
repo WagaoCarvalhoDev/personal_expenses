@@ -24,13 +24,13 @@ class _MyHomePageState extends State<HomePage> {
     }).toList();
   }
 
-  _addTransaction(String title, double value) {
+  _addTransaction(String title, double value, DateTime date) {
     final List<Transaction> transactions = TransactionsData.transactions;
     final newTransaction = Transaction(
       id: Random().nextDouble().toString(),
       title: title,
       value: value,
-      date: DateTime.now(),
+      date: date,
     );
     setState(() {
       transactions.add(newTransaction);
