@@ -11,67 +11,64 @@ class TransactionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: transactions.isEmpty
-          ? Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 40),
-                  child: Text(
-                    'Nenhuma transação cadastrada',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+    return transactions.isEmpty
+        ? Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 40),
+                child: Text(
+                  'Nenhuma transação cadastrada',
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
-                Expanded(
-                  child: Image.asset('assets/images/waiting.png'),
+              ),
+              Expanded(
+                child: Image.asset('assets/images/waiting.png'),
+              ),
+            ],
+          )
+        : ListView.builder(
+            itemCount: transactions.length,
+            itemBuilder: (context, index) {
+              final tr = transactions[index];
+              return Card(
+                elevation: 5,
+                margin: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 5,
                 ),
-              ],
-            )
-          : ListView.builder(
-              itemCount: transactions.length,
-              itemBuilder: (context, index) {
-                final tr = transactions[index];
-                return Card(
-                  elevation: 5,
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 5,
-                  ),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      radius: 30,
-                      child: Padding(
-                        padding: const EdgeInsets.all(6.0),
-                        child: FittedBox(
-                          child: Text(
-                            'R\$ ${tr.value.toStringAsFixed(2)}',
-                            style: TextStyle(
-                                color: Theme.of(context).secondaryHeaderColor),
-                          ),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    radius: 30,
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: FittedBox(
+                        child: Text(
+                          'R\$ ${tr.value.toStringAsFixed(2)}',
+                          style: TextStyle(
+                              color: Theme.of(context).secondaryHeaderColor),
                         ),
                       ),
                     ),
-                    title: Text(
-                      tr.title,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      DateFormat('d MMM y').format(tr.date),
-                    ),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete),
-                      color: Colors.redAccent,
-                      onPressed: () => onRemove(tr.id),
+                  ),
+                  title: Text(
+                    tr.title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                );
-              },
-            ),
-    );
+                  subtitle: Text(
+                    DateFormat('d MMM y').format(tr.date),
+                  ),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete),
+                    color: Colors.redAccent,
+                    onPressed: () => onRemove(tr.id),
+                  ),
+                ),
+              );
+            },
+          );
   }
 }
