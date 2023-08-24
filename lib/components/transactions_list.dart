@@ -3,14 +3,16 @@ import 'package:intl/intl.dart';
 import 'package:personal_expenses/models/transaction.dart';
 
 class TransactionsList extends StatelessWidget {
-  const TransactionsList({super.key, required this.transactions});
+  const TransactionsList(
+      {super.key, required this.transactions, required this.onRemove});
 
   final List<Transaction> transactions;
+  final Function(String) onRemove;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 300,
+      height: MediaQuery.of(context).size.height,
       child: transactions.isEmpty
           ? Column(
               children: [
@@ -60,6 +62,11 @@ class TransactionsList extends StatelessWidget {
                     ),
                     subtitle: Text(
                       DateFormat('d MMM y').format(tr.date),
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      color: Colors.redAccent,
+                      onPressed: () => onRemove(tr.id),
                     ),
                   ),
                 );

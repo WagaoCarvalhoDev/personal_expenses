@@ -15,8 +15,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<HomePage> {
+  final List<Transaction> transactions = TransactionsData.transactions;
+
   List<Transaction> get _recentTransaction {
-    final List<Transaction> transactions = TransactionsData.transactions;
     return transactions.where((tr) {
       return tr.date.isAfter(DateTime.now().subtract(
         const Duration(days: 7),
@@ -25,7 +26,6 @@ class _MyHomePageState extends State<HomePage> {
   }
 
   _addTransaction(String title, double value, DateTime date) {
-    final List<Transaction> transactions = TransactionsData.transactions;
     final newTransaction = Transaction(
       id: Random().nextDouble().toString(),
       title: title,
@@ -36,6 +36,14 @@ class _MyHomePageState extends State<HomePage> {
       transactions.add(newTransaction);
     });
     Navigator.of(context).pop();
+  }
+
+  _removeTransaction(String id) {
+    setState(() {
+      transactions.removeWhere(
+        (tr) => tr.id == id,
+      );
+    });
   }
 
   _openTransactionFormModal(BuildContext context) {
@@ -64,9 +72,13 @@ class _MyHomePageState extends State<HomePage> {
       ),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Chart(recentTransaction: _recentTransaction),
-            TransactionsList(transactions: TransactionsData.transactions),
+            TransactionsList(
+              transactions: TransactionsData.transactions,
+              onRemove: _removeTransaction,
+            ),
           ],
         ),
       ),
