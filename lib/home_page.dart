@@ -61,7 +61,12 @@ class _MyHomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final appBar = AppBar(
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      title: const Text('Despesas pessoais'),
+      title: Text(
+        'Despesas pessoais',
+        style: TextStyle(
+          fontSize: 20 * MediaQuery.of(context).textScaleFactor,
+        ),
+      ),
       actions: [
         IconButton(
           icon: const Icon(Icons.add),
