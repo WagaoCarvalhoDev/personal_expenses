@@ -43,13 +43,16 @@ class _TransactionFormState extends State<TransactionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Card(
-        elevation: 5,
+    return Card(
+      elevation: 5,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
+              autofocus: true,
               controller: _titleController,
               decoration: const InputDecoration(labelText: 'Título'),
               onSubmitted: (_) => _submitForm(),

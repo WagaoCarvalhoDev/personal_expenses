@@ -49,10 +49,16 @@ class _MyHomePageState extends State<HomePage> {
 
   _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
-      builder: (_) {
-        return TransactionForm(
-          onSubmit: _addTransaction,
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: TransactionForm(
+            onSubmit: _addTransaction,
+          ),
         );
       },
     );
@@ -72,10 +78,21 @@ class _MyHomePageState extends State<HomePage> {
         ),
       ),
       actions: [
+        if (isLandscape)
+          IconButton(
+            icon: Icon(
+              _showChart ? Icons.list : Icons.bar_chart,
+            ),
+            onPressed: () {
+              setState(() {
+                _showChart = !_showChart;
+              });
+            },
+          ),
         IconButton(
           icon: const Icon(Icons.add),
           onPressed: () => _openTransactionFormModal(context),
-        )
+        ),
       ],
     );
 
@@ -89,21 +106,6 @@ class _MyHomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Exibir Gráfico'),
-                  Switch(
-                    value: _showChart,
-                    onChanged: (value) {
-                      setState(() {
-                        _showChart = value;
-                      });
-                    },
-                  ),
-                ],
-              ),
             if (_showChart || !isLandscape)
               SizedBox(
                 height: availableHeight * (isLandscape ? 0.7 : 0.3),
