@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:personal_expenses/components/adaptive_buton.dart';
+import 'package:personal_expenses/components/adaptive_date_picker.dart';
 import 'package:personal_expenses/components/adaptive_text_field.dart';
 
 class TransactionForm extends StatefulWidget {
@@ -15,32 +15,17 @@ class TransactionForm extends StatefulWidget {
 class _TransactionFormState extends State<TransactionForm> {
   final _titleController = TextEditingController();
   final _valueProductController = TextEditingController();
-  DateTime? _selectedDate = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
 
   _submitForm() {
     final title = _titleController.text;
     final value = double.tryParse(_valueProductController.text) ?? 0.0;
 
-    if (title.isEmpty || value <= 0 || _selectedDate == null) {
+    if (title.isEmpty || value <= 0) {
       return;
     }
 
-    widget.onSubmit(title, value, _selectedDate!);
-  }
-
-  _showDatePicker() {
-    showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2019),
-      lastDate: DateTime.now(),
-    ).then((pickedDate) {
-      if (pickedDate != null) {
-        setState(() {
-          _selectedDate = pickedDate;
-        });
-      }
-    });
+    widget.onSubmit(title, value, _selectedDate);
   }
 
   @override
@@ -68,27 +53,13 @@ class _TransactionFormState extends State<TransactionForm> {
               label: 'Valor (R\$)',
               onSubmitted: (_) => _submitForm(),
             ),
-            SizedBox(
-              height: 80,
-              child: Row(
-                children: [
-                  Text(_selectedDate == null
-                      ? 'Nenhuma data selecionada'
-                      : 'Data selecionada ${DateFormat('d/MM/y').format(_selectedDate!)}'),
-                  TextButton(
-                    onPressed: _showDatePicker,
-                    child: Expanded(
-                      child: Text(
-                        'Selecionar data',
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
+            AdaptiveDatePicker(
+              selectedDate: _selectedDate,
+              onDateChange: (newDate) {
+                setState(() {
+                  _selectedDate = newDate;
+                });
+              },
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
